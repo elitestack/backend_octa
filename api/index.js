@@ -157,7 +157,7 @@ const UserWalletSchema = new mongoose.Schema({
   totalWithdrawals: { type: Number, default: 0 },
   bonuses: {
     welcomeBonus: {
-      amount: { type: Number, default: 50 },
+      amount: { type: Number, default: 0 },
       claimed: { type: Boolean, default: false },
       claimDate: Date
     },
@@ -458,7 +458,7 @@ app.post('/api/register', async (req, res) => {
 
     const newWallet = new UserWallet({ 
       userId: newUser._id,
-      bonuses: { welcomeBonus: { amount: 50 } }
+      bonuses: { welcomeBonus: { amount: 0 } }
     });
     await newWallet.save();
 
@@ -686,7 +686,7 @@ app.post('/api/deposit', authenticateToken, async (req, res) => {
 
     const user = req.headers['email'];
     await newDeposit.save();
-    await emailService.sendDepositConfirmation(user, newDeposit);
+    // await emailService.sendDepositConfirmation(user, newDeposit);
 
 
     res.status(201).json({
